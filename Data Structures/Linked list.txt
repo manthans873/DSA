@@ -1,0 +1,82 @@
+struct Node{
+public:
+	int data;
+	Node* next;
+};
+
+//printing linked list
+void printlist(Node*n){
+	while(n!=NULL){
+		cout<<n->data<<" ";
+		n=n->next;
+	}
+}
+
+void pushFront(Node** head_ref, int new_data){
+//we take argument as **pointer as we want to change the head pointer
+// if we take *pointer argument then the changes (as it is a void function)
+// remains in the function, when we call it then it remains same
+	// for refrence see this --> https://www.geeksforgeeks.org/passing-reference-to-a-pointer-in-c/
+
+	//1 allocate new node
+	Node*new_node=new Node();
+	//2. put int the data
+	new_node->data=new_data;
+	//3. make next of new node
+	// new node next is pointing to the value of the head
+	//head_ref =&head
+	//*head_ref=value that the head stores
+	new_node->next=*head_ref;
+	*head_ref=new_node;
+}
+void insertAfter(Node* prev_node,int new_data){
+
+	if (prev_node==NULL){
+		cout<<"Cannot be Inserted!!!";
+		return;
+	}
+	//allocate new_node
+	Node* new_node= new Node();
+	new_node->data=new_data;
+	new_node->next=prev_node->next;
+	prev_node->next=new_node;
+}
+void append(Node** head_ref,int new_data){
+	//allocate new node
+	Node* new_node= new Node();
+	Node* last=*head_ref;
+	new_node->data=new_data;
+	new_node->next=NULL;
+	//if the lk ls is empty then make new node as head
+	if (*head_ref==NULL){
+		*head_ref=new_node;
+		return;
+	}
+	while(last->next!=NULL){
+		last=last->next;
+	}
+	// last here becomes the last node(previous last before adding the new node)
+	// take eg. of A->B->C->NULL
+	//now at this stage we have not connect our new_node the linked list we just set the next and data of new_node
+	//so we need to connect that new_node 
+	//by this while loop we end at last=C(as c->next==NULL)
+	last->next=new_node;
+	return;
+	
+}
+
+int main() {
+	// starting with the empty list
+	Node* head=NULL;
+	append(&head,6);
+	pushFront(&head,7);
+	pushFront(&head,1);
+	append(&head,4);
+	append(&head,5);
+	append(&head,9);
+	insertAfter(head->next->next,88);
+
+	printlist(head);
+
+	return 0;
+}
