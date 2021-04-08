@@ -49,11 +49,6 @@ bool dfs(int a, int b){
 int main(){
     std::ios_base::sync_with_stdio(false); 
     cin.tie(NULL); 
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-
     int a,b;
     cin>>a>>b;
     if(dfs(a,b)){
