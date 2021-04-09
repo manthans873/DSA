@@ -23,39 +23,34 @@ using std::vector;
 typedef long long ll;
 const ll IMAX = 1000000000000000000;
 const ll IMIN = -100000000000000000;
+int steps;
+// prob link: https://codeforces.com/problemset/problem/520/B
 
-const ll N = 1e5 + 2;
-vector<ll> adj[N];
-bool vis[N];
-ll clr[N];
-// prob link: https://codeforces.com/problemset/problem/862/B
-
-void dfs(ll num, ll cl){
-    vis[num] = true;
-    clr[num] = cl;
-    for(ll cld:adj[num]){
-        if(!vis[cld]){
-            dfs(cld,cl^1);
-        }
+void dfs(int n,int m){
+    steps++;
+    if(n >= m){         // if n>m the only option is n--
+        steps+=n-m-1;   // -1 for n==m as no steps are counted
+        return;
     }
+    if(m%2 == 0) dfs(n,m/2);
+    else dfs(n,m+1);
 }
 int main()
 {
     std::ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    memset(clr,-1,sizeof(clr));
-    ll n,x,y,ctr=0;
-    cin>>n;
-    for(ll i=1;i<n;++i){
-        cin>>x>>y;
-        adj[x].push_back(y);
-        adj[y].push_back(x);
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int n,m;
+    cin>>n>>m;
+    if(n>m){
+        cout<<n-m;
+        return 0;
     }
-    dfs(1,0);
-    for(ll i=1;i<=n;++i){
-        if(clr[i] == 0) ctr++;
-    }
-    cout<<ctr*(n-ctr) - (n-1);
+    dfs(n,m);
+    cout<<steps;
 
     return 0;
 }
